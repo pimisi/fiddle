@@ -32,9 +32,9 @@
             })
     }
 
-    MainController.$inject = ['$scope', '$rootScope', '$resource', 'APIHelper', 'SERVER_LINKS']
+    MainController.$inject = ['$scope', '$rootScope', '$resource', 'APIHelper', 'BaseServiceModel', 'SERVER_LINKS']
 
-    function MainController($scope, $rootScope, $resource, APIHelper, SERVER_LINKS) {
+    function MainController($scope, $rootScope, $resource, APIHelper, BaseServiceModel, SERVER_LINKS) {
 
         // Links
         $scope.links = SERVER_LINKS;
@@ -78,6 +78,12 @@
          }
          });
          } */
+
+        var friendList = new BaseServiceModel("friends.list", param);
+
+        friendList.fetchJSONObject().then(function() {
+            console.log = friendList.responsePayload;
+        });
 
 
     }
