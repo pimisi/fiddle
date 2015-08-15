@@ -1,0 +1,18 @@
+{# This is the home of the site, where the app starts #}
+{% extends '_layouts/base.html' %}
+
+{% block headlinewrapper %}{# empty #}{% endblock headlinewrapper %}
+<h1>App Base</h1>
+{% block layer_main %}
+    <!-- app cards starts-->
+    <div>
+        <div ng-view><div class="base-content"></div></div>
+    </div>
+    <!--app cards ends-->
+{% endblock layer_main %}
+
+{% block js %}
+    {% load staticfiles %}
+    <!-- <script src="{% static 'resources/api_endpoints.js' %}"></script> -->
+    <script src="{% static 'js/_controllers/main.controller.js' %}"></script>
+{% endblock js %}

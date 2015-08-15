@@ -1,0 +1,639 @@
+{
+  "mock": {
+    "baseUrl": "",
+    "account": {
+      "baseUrl": "http://private-066dc-login128.apiary-mock.com",
+      "login": "/:username",
+      "signup": "",
+      "deactivate": ""
+    },
+    "userProfile": {
+      "baseUrl": "http://private-8c6597-userprofile6.apiary-mock.com",
+      "get": "/:username/profile",
+      "update": "/:username/profile/update"
+    },
+    "friends": {
+      "baseUrl": "http://private-7dc67-friends4.apiary-mock.com",
+      "list": "/:username/friends",
+      "count": "/:username/friends/count",
+      "status": "/:username/friends/:with_user/status",
+      "requests": {
+        "send": "/friends/request/:to_user/send",
+        "sent": {
+          "list": "/:username/friends/requests/sent",
+          "count": "/:username/friends/requests/sent/count"
+        },
+        "received": {
+          "list": "/:username/friends/requests/received",
+          "count": "/:username/friends/requests/received/count"
+        },
+        "accept": "/friends/request/:from_user/accept",
+        "cancel": "/friends/request/:to_user/cancel",
+        "decline": "/friends/request/:from_user/decline"
+      },
+      "blocked": {
+        "list": "/:username/friends/blocked",
+        "count": "/:username/friends/blocked/count"
+      },
+      "block": "/block/:username",
+      "unblock": "/unblock/:username",
+      "unfriend": "/unfriend/:username",
+      "follow": "/follow/:username",
+      "unfollow": "/unfollow/:username",
+      "following": {
+        "base": "/:username/following",
+        "count": "/:username/following/count"
+      },
+      "followers": {
+        "list": "/:username/followers",
+        "count": "/:username/followers/count"
+      }
+    },
+    "photos": {
+      "baseUrl": "http://private-3d9fa-photos6.apiary-mock.com",
+      "album": "/albums/",
+      "albumInfo": "/albums/:id",
+      "editAlbum": "/albums/:id",
+      "deleteAlbum": "/albums/:id",
+      "upload": "/photos/",
+      "viewAlbum": "albums/:album_id/photos/"
+    },
+    "videos": {
+      "baseUrl": "http://private-e5f1b-videos2.apiary-mock.com",
+      "upload": "/videos/",
+      "view": "/videos/:id",
+      "edit": "/videos/:id",
+      "delete": "/videos/:id",
+      "upload": "/photos/",
+      "listViewUser": "videos/:username/"
+    },
+    "activities": {
+      "baseUrl": "http://private-f6d05-activitystream.apiary-mock.com",
+      "list": {
+        "default": "/:username/feeds/default",
+        "self": "/:username/feeds/activities"
+      }
+    },
+    "settings": {
+      "baseUrl": "",
+      "changePassword": ""
+    },
+    "blogposts": {
+      "baseUrl": "http://private-478af-blogpost1.apiary-mock.com",
+      "list": "/blogposts/",
+      "create": {
+        "normal": "/blogposts/",
+        "with_location": "/blogposts/",
+        "with_photo": "/blogposts/",
+        "mentioning": "/blogposts/",
+        "tags": "/blogposts/"
+      },
+      "edit": "/blogposts/",
+      "delete": "/blogposts/"
+    },
+    "search": {
+      "baseUrl": "http://private-3a07d-search42.apiary-mock.com",
+      "byField": "/users?field=:field_name&text=:search_term&size=:size"
+    },
+    "hobbies": {
+      "baseUrl": "",
+      "list": "/hobbies",
+      "search": "hobbies/:query"
+    },
+    "countries": {
+      "baseUrl": "http://private-9bcc3-countries6.apiary-mock.com",
+      "list": "/countries",
+      "regions": {
+        "list": "/countries/:countryId/regions"
+      },
+      "cities": {
+        "list": "/regions/:regionId/cities",
+        "search": "/cities/:query",
+        "searchByCountry": "/countries/:countryId/cities/:query",
+        "create": "/cities"
+      }
+    },
+    "groups": {
+      "baseUrl": "http://private-68cc5-groups12.apiary-mock.com",
+      "list": {
+        "members": "/groups/:groupId/members",
+        "groupsByOwner": "/groups/:group_owner/"
+      },
+      "create": {
+        "with_cover": "/groups/",
+        "normal": "/groups/"
+      },
+      "delete": "/groups/:groupId/",
+      "view_info": "/groups/:groupId/",
+      "join": {
+        "private": "/groups/:groupId/:memberId",
+        "public": "/groups/:groupId/:memberId"
+      },
+      "leave": "/groups/:groupId/:memberId",
+      "secret": {
+        "invite": "/groups/:groupId/:memberId",
+        "respond": "/groups/:groupId/:memberId"
+      },
+      "notifications": {
+        "owner": "/groups/:groupId/settings/",
+        "member": "/groups/:groupId/:memberId/settings"
+      },
+      "settings": {
+        "owner": "/groups/:groupId/settings",
+        "create": "/groups/:groupId/settings",
+        "member": "/groups/:groupId/:memberId/settings"
+      }
+    },
+    "status_update": {
+      "baseUrl": "http://private-916d00-statusupdate3.apiary-mock.com",
+      "create": {
+        "normal": "/statusupdates/",
+        "with_location": "/statusupdates/",
+        "with_photo": "/statusupdates/",
+        "mentioning": "/statusupdates/",
+        "tags": "/statusupdates/"
+      },
+      "list": "/statusupdates/:username/",
+      "view": "/statusupdates/:id/",
+      "delete": "statusupdates/:id/",
+      "edit": "/statusupdates/:id/"
+    },
+    "pages": {
+      "baseUrl": "http://private-a9090-pages2.apiary-mock.com",
+      "create": "/pages/",
+      "notifications": {
+        "owner": "/pages/:id/:owner/settings/",
+        "member": "/pages/:userId/member/settings/"
+      },
+      "view": "/pages/:id",
+      "follow": "/pages/follow/",
+      "unfollow": "/pages/unfollow/:userId/",
+      "admin": {
+        "add": "/pages/:id/admin/",
+        "remove": "/pages/:id/admin/remove/"
+      },
+      "edit": {
+        "owner": "/pages/:id/:author/"
+      },
+      "list": {
+        "followers": "/pages/followers/:pageID/"
+      }
+    },
+    "comments": {
+      "baseUrl": "http://private-0fcbf-comments10.apiary-mock.com",
+      "comment": "/comments/",
+      "list": "/content/:objectID/comments/",
+      "view": "/comments/:commentID/",
+      "edit": "/comments/:commentID/",
+      "delete": "/comments/:commentID/"
+    },
+    "likes": {
+      "baseUrl": "http://private-d9b44f-like2.apiary-mock.com",
+      "like": "/likes/",
+      "view": "/likes/:likeID/",
+      "viewContentLikes": "/content/:objectID/likes/",
+      "authorLikes": "/likes/{author}/",
+      "unlike": "/likes/id/"
+    },
+    "useraccount": {
+      "baseUrl": "http://private-b97c6-useraccount.apiary-mock.com",
+      "createAccount": "/create-account/",
+      "login": "/authenticate/",
+      "logout": "/logout/",
+      "loginViaFacebook": "/login/facebook/"
+    }
+  },
+  "development": {
+    "baseUrl": "http://:app.apps.yookore.net",
+    "account": {
+      "baseUrl": "http://idp.apps.yookore.net",
+      "login": "/:username",
+      "signup": "",
+      "deactivate": ""
+    },
+    "userProfile": {
+      "baseUrl": "http://upm.apps.yookore.net/api/v1/profile",
+      "get": "/:username",
+      "update": "/:username"
+    },
+    "friends": {
+      "baseUrl": "http://socialgraph.apps.yookore.net/api/v1",
+      "list": "/:username/friends",
+      "count": "/:username/friends/count",
+      "status": "/:username/friends/:with_user/status",
+      "requests": {
+        "send": "/friends/request/:to_user/send",
+        "sent": {
+          "list": "/:username/friends/requests/sent",
+          "count": "/:username/friends/requests/sent/count"
+        },
+        "received": {
+          "list": "/:username/friends/requests/received",
+          "count": "/:username/friends/requests/received/count"
+        },
+        "accept": "/friends/request/:from_user/accept",
+        "cancel": "/friends/request/:to_user/cancel",
+        "decline": "/friends/request/:from_user/decline"
+      },
+      "blocked": {
+        "list": "/:username/friends/blocked",
+        "count": "/:username/friends/blocked/count"
+      },
+      "block": "/block/:username",
+      "unblock": "/unblock/:username",
+      "unfriend": "/unfriend/:username",
+      "follow": "/follow/:username",
+      "unfollow": "/unfollow/:username",
+      "following": {
+        "base": "/:username/following",
+        "count": "/:username/following/count"
+      },
+      "followers": {
+        "list": "/:username/followers",
+        "count": "/:username/followers/count"
+      }
+    },
+    "blogpost": {
+      "baseUrl": "http://blogpost.apps.yookore.net/api/v1",
+      "list": "/blogposts/",
+      "create": {
+        "normal": "/blogposts/",
+        "with_location": "/blogposts/",
+        "with_photo": "/blogposts/",
+        "mentioning": "/blogposts/",
+        "tags": "/blogposts/"
+      },
+      "edit": "/blogposts/",
+      "delete": "/blogposts/"
+    },
+    "activities": {
+      "baseUrl": "http://aes.apps.yookore.net/v1",
+      "list": {
+        "default": "/:username/feeds/default",
+        "self": "/:username/feeds/activities"
+      }
+    },
+    "settings": {
+      "baseUrl": "",
+      "changePassword": ""
+    },
+    "status_update": {
+      "baseUrl": "http://statusupdate.apps.yookore.net/api/v1",
+      "create": {
+        "normal": "/statusupdates/",
+        "with_location": "/statusupdates/",
+        "with_photo": "/statusupdates/",
+        "mentioning": "/statusupdates/",
+        "tags": "/statusupdates/"
+      },
+      "list": "/statusupdates/:username/",
+      "view": "/statusupdates/:id/",
+      "delete": "statusupdates/:id/",
+      "edit": "/statusupdates/:id/"
+    },
+    "search": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/search",
+      "byField": "/users?field=:field_name&text=:search_term&size=:size"
+    },
+    "hobbies": {
+      "baseUrl": "",
+      "list": "/hobbies",
+      "search": "hobbies/:query"
+    },
+    "countries": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/countryservice",
+      "list": "/countries",
+      "regions": {
+        "list": "/countries/:countryId/regions"
+      },
+      "cities": {
+        "list": "/regions/:regionId/cities",
+        "search": "/cities/:query",
+        "searchByCountry": "/countries/:countryId/cities/:query",
+        "create": "/cities"
+      }
+    },
+    "groups": {
+      "baseUrl": "http://groups.apps.yookore.net/api/v1",
+      "list": {
+        "members": "/groups/:groupId/members",
+        "groupsByOwner": "/groups/:group_owner/"
+      },
+      "create": {
+        "with_cover": "/groups/",
+        "normal": "/groups/"
+      },
+      "delete": "/groups/:groupId/",
+      "view_info": "/groups/:groupId/",
+      "join": {
+        "private": "/groups/:groupId/:memberId",
+        "public": "/groups/:groupId/:memberId"
+      },
+      "leave": "/groups/:groupId/:memberId",
+      "secret": {
+        "invite": "/groups/:groupId/:memberId",
+        "respond": "/groups/:groupId/:memberId"
+      },
+      "notifications": {
+        "owner": "/groups/:groupId/settings/",
+        "member": "/groups/:groupId/:memberId/settings"
+      },
+      "settings": {
+        "owner": "/groups/:groupId/settings",
+        "create": "/groups/:groupId/settings",
+        "member": "/groups/:groupId/:memberId/settings"
+      }
+    },
+    "photos": {
+      "baseUrl": "http://photos.apps.yookore.net/api/v1",
+      "album": "/albums/",
+      "albumInfo": "/albums/:id",
+      "editAlbum": "/albums/:id",
+      "deleteAlbum": "/albums/:id",
+      "upload": "/photos/",
+      "viewAlbum": "albums/:album_id/photos/"
+    },
+    "videos": {
+      "baseUrl": "http://videos.apps.yookore.net/api/v1",
+      "upload": "/videos/",
+      "view": "/videos/:id",
+      "edit": "/videos/:id",
+      "delete": "/videos/:id",
+      "upload": "/photos/",
+      "listViewUser": "videos/:username/"
+    },
+    "pages": {
+      "baseUrl": "http://pages.apps.yookore.net/api/v1",
+      "create": "/pages/",
+      "notifications": {
+        "owner": "/pages/:id/:owner/settings/",
+        "member": "/pages/:userId/member/settings/"
+      },
+      "view": "/pages/:id",
+      "follow": "/pages/follow/",
+      "unfollow": "/pages/unfollow/:userId/",
+      "admin": {
+        "add": "/pages/:id/admin/",
+        "remove": "/pages/:id/admin/remove/"
+      },
+      "edit": {
+        "owner": "/pages/:id/:author/"
+      },
+      "list": {
+        "followers": "/pages/followers/:pageId/"
+      }
+    },
+    "comments": {
+      "baseUrl": "http://comment.apps.yookore.net/api/v1",
+      "comment": "/comments/",
+      "list": "/content/:objectID/comments/",
+      "view": "/comments/:commentID/",
+      "edit": "/comments/:commentID/",
+      "delete": "/comments/:commentID/"
+    },
+    "likes": {
+      "baseUrl": "http://likes.apps.yookore.net/api/v1",
+      "like": "/likes/",
+      "view": "/likes/:likeID/",
+      "viewContentLikes": "/content/:objectID/likes/",
+      "authorLikes": "/likes/{author}/",
+      "unlike": "/likes/id/"
+    },
+    "useraccount": {
+      "baseUrl": "http://private-b97c6-useraccount.apiary-mock.com/",
+      "createAccount": "/create-account/",
+      "login": "/authenticate/",
+      "logout": "/logout/",
+      "loginViaFacebook": "/login/facebook/"
+    }
+  },
+  "staging": {
+    "baseUrl": "http://:app.apps.yookore.net",
+    "account": {
+      "baseUrl": "http://idp.apps.yookore.net",
+      "login": "/:username",
+      "signup": "",
+      "deactivate": ""
+    },
+    "userProfile": {
+      "baseUrl": "http://upm.apps.yookore.net/api/v1/profile",
+      "get": "/:username",
+      "update": "/:username"
+    },
+    "friends": {
+      "baseUrl": "http://socialgraph.apps.yookore.net",
+      "list": "/friends/:username",
+      "requests": {
+        "sent": "",
+        "received": "/friend-requests/received/:username",
+        "accept": "/friend-request/accept"
+      },
+      "blocked": "",
+      "follow": "",
+      "unfollow": "/unfollow",
+      "following": {
+        "base": "/following/:username",
+        "count": "/following/:username/count"
+      },
+      "followers": "/followers/:username"
+    },
+    "blogpost": {
+      "baseUrl": "http://blogpost.apps.yookore.net",
+      "list": "",
+      "create": "",
+      "edit": "",
+      "delete": ""
+    },
+    "activities": {
+      "baseUrl": "http://aes.apps.yookore.net/v1",
+      "list": {
+        "default": "/:username/feeds/default",
+        "self": "/:username/feeds/activities"
+      }
+    },
+    "settings": {
+      "baseUrl": "",
+      "changePassword": ""
+    },
+    "status_update": {
+      "baseUrl": "",
+      "list": "",
+      "create": "",
+      "edit": "",
+      "delete": ""
+    },
+    "search": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/search",
+      "byField": "/users?field=:field_name&text=:search_term&size=:size"
+    },
+    "hobbies": {
+      "baseUrl": "",
+      "list": "/hobbies",
+      "search": "hobbies/:query"
+    },
+    "countries": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/countryservice",
+      "list": "/countries",
+      "regions": {
+        "list": "/countries/:countryId/regions"
+      },
+      "cities": {
+        "list": "/regions/:regionId/cities",
+        "search": "/cities/:query",
+        "searchByCountry": "/countries/:countryId/cities/:query",
+        "create": "/cities"
+      }
+    }
+  },
+  "uat": {
+    "baseUrl": "http://:app.apps.yookore.net",
+    "account": {
+      "baseUrl": "http://idp.apps.yookore.net",
+      "login": "/:username",
+      "signup": "",
+      "deactivate": ""
+    },
+    "userProfile": {
+      "baseUrl": "http://upm.apps.yookore.net/api/v1/profile",
+      "get": "/:username",
+      "update": "/:username"
+    },
+    "friends": {
+      "baseUrl": "http://socialgraph.apps.yookore.net",
+      "list": "/friends/:username",
+      "requests": {
+        "sent": "",
+        "received": "/friend-requests/received/:username",
+        "accept": "/friend-request/accept"
+      },
+      "blocked": "",
+      "follow": "",
+      "unfollow": "/unfollow",
+      "following": {
+        "base": "/following/:username",
+        "count": "/following/:username/count"
+      },
+      "followers": "/followers/:username"
+    },
+    "blogpost": {
+      "baseUrl": "http://blogpost.apps.yookore.net",
+      "list": "",
+      "create": "",
+      "edit": "",
+      "delete": ""
+    },
+    "activities": {
+      "baseUrl": "http://aes.apps.yookore.net/v1",
+      "list": {
+        "default": "/:username/feeds/default",
+        "self": "/:username/feeds/activities"
+      }
+    },
+    "settings": {
+      "baseUrl": "",
+      "changePassword": ""
+    },
+    "status_update": {
+      "baseUrl": "",
+      "list": "",
+      "create": "",
+      "edit": "",
+      "delete": ""
+    },
+    "search": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/search",
+      "byField": "/users?field=:field_name&text=:search_term&size=:size"
+    },
+    "hobbies": {
+      "baseUrl": "",
+      "list": "/hobbies",
+      "search": "hobbies/:query"
+    },
+    "countries": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/countryservice",
+      "list": "/countries",
+      "cities": {
+        "list": "/cities",
+        "search": "/cities/:query"
+      }
+    }
+  },
+  "production": {
+    "baseUrl": "http:www.yookos.com",
+    "account": {
+      "baseUrl": "http://idp.apps.yookore.net",
+      "login": "/:username",
+      "signup": "",
+      "deactivate": ""
+    },
+    "userProfile": {
+      "baseUrl": "http://upm.apps.yookore.net/api/v1/profile",
+      "get": "/:username",
+      "update": "/:username"
+    },
+    "friends": {
+      "baseUrl": "http://socialgraph.apps.yookore.net",
+      "list": "/friends/:username",
+      "requests": {
+        "sent": "",
+        "received": "/friend-requests/received/:username",
+        "accept": "/friend-request/accept"
+      },
+      "blocked": "",
+      "follow": "",
+      "unfollow": "/unfollow",
+      "following": {
+        "base": "/following/:username",
+        "count": "/following/:username/count"
+      },
+      "followers": "/followers/:username"
+    },
+    "blogpost": {
+      "baseUrl": "http://blogpost.apps.yookore.net",
+      "list": "",
+      "create": "",
+      "edit": "",
+      "delete": ""
+    },
+    "activities": {
+      "baseUrl": "http://aes.apps.yookore.net/v1",
+      "list": {
+        "default": "/:username/feeds/default",
+        "self": "/:username/feeds/activities"
+      }
+    },
+    "settings": {
+      "baseUrl": "",
+      "changePassword": ""
+    },
+    "status_update": {
+      "baseUrl": "",
+      "list": "",
+      "create": "",
+      "edit": "",
+      "delete": ""
+    },
+    "search": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/search",
+      "byField": "/users?field=:field_name&text=:search_term&size=:size"
+    },
+    "hobbies": {
+      "baseUrl": "",
+      "list": "/hobbies",
+      "search": "hobbies/:query"
+    },
+    "countries": {
+      "baseUrl": "http://search.apps.yookore.net/api/v1/countryservice",
+      "list": "/countries",
+      "regions": {
+        "list": "/countries/:countryId/regions"
+      },
+      "cities": {
+        "list": "/regions/:regionId/cities",
+        "search": "/cities/:query",
+        "searchByCountry": "/countries/:countryId/cities/:query",
+        "create": "/cities"
+      }
+    }
+  }
+}
