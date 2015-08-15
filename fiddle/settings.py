@@ -195,10 +195,4 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 # AUTH_USER_MODEL = 'api.User'
 # URL_FIELD_NAME = 'self'
 
-# DEFAULT_FROM_EMAIL = 'paul.imisi@gmail.com'
-SERVER_EMAIL = 'yadxdigital@gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yadxdigital@gmail.com'
-EMAIL_HOST_PASSWORD = 'YAdXDigital2015'
+
