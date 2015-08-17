@@ -66,9 +66,18 @@
 
         }
 
-        BaseServiceModel.prototype.fetchJSONObject = function () {
+        BaseServiceModel.prototype.fetchJSONObject = function (requestedService, param) {
             var self = this;
             self.responsePayload = null;
+
+            if (requestedService != undefined && requestedService != null) {
+                self.apiUriObject = APIHelper.getAPIServiceURIObject(
+                    API_PREFERRED_KEYS.main,
+                    API_PREFERRED_KEYS.fallback,
+                    requestedService,
+                    param
+                );
+            }
 
             return self.JSONRequest(self.apiUriObject["main"]).fetchJSONObject().$promise.then(function (data) {
                 self.responsePayload = data;
