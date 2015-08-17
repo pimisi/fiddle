@@ -36,5 +36,9 @@
         })
         .constant('SERVER_LINKS', {
             signUp: "/signup"
-        });;
+        })
+        .constant('API_PREFERRED_KEYS', {
+            main: 'development',
+            fallback: 'mock'
+        });
 })();

@@ -5,36 +5,43 @@
         .module('playgroundApp')
         .factory('BaseServiceModel', BaseServiceModel);
 
-    BaseServiceModel.$inject = ['$scope', '$resource', '$rootScope', 'APIHelper', 'Base64'];
+    BaseServiceModel.$inject = ['$resource', 'API_PREFERRED_KEYS', '$rootScope', 'APIHelper', 'Base64'];
 
-    function BaseServiceModel($scope, $resource, $rootScope, APIHelper, Base64) {
+    function BaseServiceModel($resource, API_PREFERRED_KEYS, $rootScope, APIHelper, Base64) {
 
         //var serviceObject = {};
-        //var apiUriObject = {};
+        var apiUriObject = {};
 
         function addAuthorizationHeader(data, headersGetter) {
             // as per HTTP accounts spec [1], credentials must be
             // encoded in base64.
             var headers = headersGetter();
-            headers['Authorization'] = ('Basic ' + Base64.encode(data.username + ':' + data.password))
+            //headers['Authorization'] = ('Basic ' + Base64.encode(data.username + ':' + data.password))
         }
 
-        var BaseServiceModel = function(requestedService, param) {
+        var BaseServiceModel = function (requestedService, param) {
 
-            this.apiUriObject = {};
-            this.serviceObject = {};
+            //this.serviceObject = {};
             this.responsePayload = null;
 
-            var self = this
+            this.apiUriObject = APIHelper.getAPIServiceURIObject(
+                API_PREFERRED_KEYS.main,
+                API_PREFERRED_KEYS.fallback,
+                requestedService,
+                param
+            );
 
-            APIHelper.getServiceURIObject("development", "mock", requestedService, param,
+            /* APIHelper.getServiceURIObject("development", "mock", requestedService, param,
                 function (serviceURIObject) {
                     self.apiUriObject = serviceURIObject;
+                    apiUriObject = self.apiUriObject;
 
                     console.log(self.apiUriObject);
+
+
                     //fetchCallback(apiUriObject);
                     return serviceURIObject;
-                });
+                });*/
         }
 
         /**
@@ -42,10 +49,32 @@
          * This method uses a fallback logic so that if the primary source of the call fails
          * it would make a secondary call to retrieve mock data of the exact same payload structure
          */
-        BaseServiceModel.prototype.JSONRequest = function() {
-            var self = this;
+        //var JSONRequest = $resource(apiUriObject["main"], null, {
+        //    fetchJSONObject: {
+        //        method: 'GET',
+        //        transformRequest: addAuthorizationHeader
+        //    },
+        //    fetchJSONArray: {
+        //        method: 'GET',
+        //        transformRequest: addAuthorizationHeader,
+        //        isArray: true
+        //    },
+        //    postJSONObject: {
+        //        method: 'POST',
+        //        transformRequest: addAuthorizationHeader
+        //    },
+        //    postJSONArray: {
+        //        method: 'POST',
+        //        transformRequest: addAuthorizationHeader,
+        //        isArray: true
+        //    }
+        //});
 
-            return $resource(apiUriObject["main"], null, {
+        BaseServiceModel.prototype.JSONRequest = function(sourceURI) {
+
+            console.log(sourceURI);
+
+            return $resource(sourceURI, {}, {
                 fetchJSONObject: {
                     method: 'GET',
                     transformRequest: addAuthorizationHeader
@@ -68,18 +97,39 @@
 
         }
 
-        BaseServiceModel.prototype.fetchJSONObject = function() {
+        BaseServiceModel.prototype.fetchJSONObject = function () {
             var self = this;
+            self.responsePayload = null;
 
-            return self.JSONRequest.fetchJSONObject().$promise.then(function(data) {
+            return self.JSONRequest(self.apiUriObject["main"]).fetchJSONObject().$promise.then(function (data) {
                 self.responsePayload = data;
 
-                return data;
+                //return data;
+            }, function(data) {
+                if (data.data.status == 404) {
+                    // make secondary call
+                    return self.JSONRequest(self.apiUriObject["fallback"]).fetchJSONObject().$promise.then(function (data) {
+                        self.responsePayload = data;
+
+                        //return data;
+                    }, function(data) {
+                        console.log("Fallback Other Method");
+                    }).catch(function(data) {
+                        console.log("Fallback Failed");
+
+                        //return null;
+                    });
+                }
+                console.log("Other Method");
+
+            }).catch(function(data) {
+                console.log("Failed");
+
+                //return null;
             });
         }
 
         return BaseServiceModel;
-
 
     }
 

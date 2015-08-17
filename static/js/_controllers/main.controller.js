@@ -45,25 +45,15 @@
         var currentLocation = document.location.toLocaleString();
         var testMatch = matchPattern.test(currentLocation);
 
-        //APIHelper.getServiceObject("development", "mock").query().$promise.then(function(data) {
-        //        console.log(data);
-        //    });
-
-        //APIHelper.getServiceObject("development", "mock", function(data) {
-        //    console.log(data);
-        //
-        //    var param = {"username": "pimisi"}
-        //    // Get the service URI
-        //    APIHelper.getServiceURI(data, "friends.list", "primary", param);
-        //});
-
         var param = {"username": "pimisi"}
 
-        APIHelper.getServiceURIObject(
-            "development", "mock", "friends.list", param,
-            function (serviceURIObject) {
-                console.log(serviceURIObject);
-            });
+        var friendList = new BaseServiceModel("friends.list", param);
+
+        console.log(friendList);
+
+        friendList.fetchJSONObject().then(function() {
+            console.log(friendList.responsePayload);
+        });
 
         /* if (testMatch) {
          handleContactUsRoute();
@@ -79,11 +69,7 @@
          });
          } */
 
-        var friendList = new BaseServiceModel("friends.list", param);
 
-        friendList.fetchJSONObject().then(function() {
-            console.log = friendList.responsePayload;
-        });
 
 
     }

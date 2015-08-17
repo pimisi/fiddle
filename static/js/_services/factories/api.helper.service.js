@@ -5,9 +5,9 @@
         .module('playgroundApp')
         .factory('APIHelper', APIHelper);
 
-    APIHelper.$inject = ['$resource'];
+    APIHelper.$inject = ['$resource', '$http'];
 
-    function APIHelper($resource) {
+    function APIHelper($resource, $http) {
 
         //var apiEndpoints = null;
         //var primaryAPISource = '';
@@ -40,6 +40,25 @@
 
                 callback(serviceSourceObject);
             });
+        }
+
+        helperObject.getAPIServiceObject = function (environment, fallback) {
+            // Retrieve the endpoint json file
+            $.ajax({
+                url: '/static/resources/api_endpoints.json',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    var endpointObject = data[environment];
+                    var fallbackEndpointObject = data[fallback];
+
+                    serviceSourceObject.primary = endpointObject;
+                    serviceSourceObject.fallback = fallbackEndpointObject;
+                }
+            });
+
+            return serviceSourceObject;
+
         }
 
         helperObject.getServiceURI = function (serviceObject, requiredService, serviceObjectKey, params) {
@@ -113,12 +132,11 @@
             return serviceURI;
         }
 
-        helperObject.getServiceURIObject = function (
-            environment, fallbackEnvironment, requiredService, params, callback) {
+        helperObject.getServiceURIObject = function (environment, fallbackEnvironment, requiredService, params, callback) {
 
             var serviceURIMap = {};
 
-            this.getServiceObject(environment, fallbackEnvironment, function(serviceObject) {
+            this.getServiceObject(environment, fallbackEnvironment, function (serviceObject) {
                 var mainURI = helperObject.getServiceURI(serviceObject, requiredService, "primary", params);
                 var mockURI = helperObject.getServiceURI(serviceObject, requiredService, "fallback", params);
 
@@ -127,6 +145,20 @@
 
                 callback(serviceURIMap);
             });
+
+            return serviceURIMap;
+        }
+
+        helperObject.getAPIServiceURIObject = function (environment, fallbackEnvironment,
+                                                        requiredService, params, callback) {
+            var serviceURIMap = {};
+            var serviceObject = this.getAPIServiceObject(environment, fallbackEnvironment);
+
+            var mainURI = helperObject.getServiceURI(serviceObject, requiredService, "primary", params);
+            var mockURI = helperObject.getServiceURI(serviceObject, requiredService, "fallback", params);
+
+            serviceURIMap.main = mainURI;
+            serviceURIMap.fallback = mockURI;
 
             return serviceURIMap;
         }
