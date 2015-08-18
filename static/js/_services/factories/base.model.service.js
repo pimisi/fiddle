@@ -27,7 +27,7 @@
             }
         }
 
-        var BaseServiceModel = function (requestedService, param) {
+        var BaseModelService = function (requestedService, param) {
 
             this.responsePayload = null;
             this.responseError = null;
@@ -53,7 +53,7 @@
          * This method uses a fallback logic so that if the primary source of the call fails
          * it would make a secondary call to retrieve mock data of the exact same payload structure
          */
-        BaseServiceModel.prototype.JSONRequest = function (sourceURI) {
+        BaseModelService.prototype.JSONRequest = function (sourceURI) {
 
             console.log(sourceURI);
 
@@ -80,13 +80,33 @@
 
         }
 
-        BaseServiceModel.prototype.fetchJSONObject = function (requestedService, param) {
+        BaseModelService.prototype.postJSONObject = function(requestedService, param, requestPayload) {
             var self = this;
             self.responsePayload = null;
 
             getApiUriObject.call(this, requestedService, param);
 
-            return self.JSONRequest(self.apiUriObject["main"]).fetchJSONObject().$promise.then(function (data) {
+            return self.JSONRequest(self.apiUriObject["main"]).postJSONObject(requestPayload)
+                .$promise
+                .then(function(response) {
+
+                }, function(response) {
+
+                })
+                .catch(function(response) {
+
+                })
+        }
+
+        BaseModelService.prototype.fetchJSONObject = function (requestedService, param) {
+            var self = this;
+            self.responsePayload = null;
+
+            getApiUriObject.call(this, requestedService, param);
+
+            return self.JSONRequest(self.apiUriObject["main"]).fetchJSONObject()
+                .$promise
+                .then(function (data) {
                 self.responsePayload = data;
 
                 //return data;
@@ -135,7 +155,7 @@
             return {responseData: responseData, status: status, statusText: statusText};
         }
 
-        return BaseServiceModel;
+        return BaseModelService;
 
     }
 
