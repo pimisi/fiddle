@@ -3,23 +3,36 @@
 
     angular
         .module('playgroundApp')
-        .factory('BaseServiceModel', BaseServiceModel);
+        .factory('BaseModelService', BaseModelService);
 
-    BaseServiceModel.$inject = ['$resource', 'API_PREFERRED_KEYS', '$rootScope', 'APIHelper', 'Base64'];
+    BaseModelService.$inject = ['$resource', 'API_PREFERRED_KEYS', '$rootScope', 'APIHelper', 'Base64'];
 
-    function BaseServiceModel($resource, API_PREFERRED_KEYS, $rootScope, APIHelper, Base64) {
+    function BaseModelService($resource, API_PREFERRED_KEYS, $rootScope, APIHelper, Base64) {
+
+        function getApiUriObject(requestedService, param) {
+
+            if (requestedService != undefined && requestedService != null) {
+                if (typeof(requestedService) != 'string') {
+                    console.log("getAPIUriObject - The first argument must be a string");
+                } else if (typeof(param) != 'object' && param != undefined && param != null) {
+                    console.log("getAPIUriObject - The second argument must be an object");
+                } else {
+                    this.apiUriObject = APIHelper.getAPIServiceURIObject(
+                        API_PREFERRED_KEYS.main,
+                        API_PREFERRED_KEYS.fallback,
+                        requestedService,
+                        param
+                    );
+                }
+            }
+        }
 
         var BaseServiceModel = function (requestedService, param) {
 
             this.responsePayload = null;
             this.responseError = null;
 
-            this.apiUriObject = APIHelper.getAPIServiceURIObject(
-                API_PREFERRED_KEYS.main,
-                API_PREFERRED_KEYS.fallback,
-                requestedService,
-                param
-            );
+            getApiUriObject.call(this, requestedService, param);
 
             /* APIHelper.getServiceURIObject("development", "mock", requestedService, param,
              function (serviceURIObject) {
@@ -33,6 +46,7 @@
              return serviceURIObject;
              });*/
         }
+
 
         /**
          * This method is used as the base method to fetch JSON Object for the required service.
@@ -70,47 +84,40 @@
             var self = this;
             self.responsePayload = null;
 
-            if (requestedService != undefined && requestedService != null) {
-                self.apiUriObject = APIHelper.getAPIServiceURIObject(
-                    API_PREFERRED_KEYS.main,
-                    API_PREFERRED_KEYS.fallback,
-                    requestedService,
-                    param
-                );
-            }
+            getApiUriObject.call(this, requestedService, param);
 
             return self.JSONRequest(self.apiUriObject["main"]).fetchJSONObject().$promise.then(function (data) {
                 self.responsePayload = data;
 
                 //return data;
             }, function (response) {
-                var __response = getResponseError(response);
+                var __response = getResponseError.call(self, response);
 
+                // Check the error return from the server
                 if (__response.responseData == null || __response.status == 404) {
-                    // make secondary call
+                    // Make the secondary call
                     return self.JSONRequest(self.apiUriObject["fallback"]).fetchJSONObject()
                         .$promise.then(function (data) {
                             self.responsePayload = data;
 
-                            //return data;
                         }, function (response) {
                             console.log("Fallback Other Method");
-                            self.responseError = getResponseError(response);
+                            self.responseError = getResponseError.call(self, response);
 
                         }).catch(function (response) {
                             console.log("Fallback Failed");
-                            self.responseError = getResponseError(response);
-                            //return null;
+                            self.responseError = getResponseError.call(self, response);
+
                         });
                 } else {
-                    this.responseError = getResponseError(response);
+                    this.responseError = __response;
                 }
                 console.log("Other Method");
 
             }).catch(function (response) {
                 console.log("Failed");
 
-                //return null;
+                self.responseError = getResponseError.call(self, response);
             });
         }
 

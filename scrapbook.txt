@@ -34,3 +34,49 @@ OR
 Pay attention to the second input: We can use an ng-if to control rendering and validation in forms. If the requireTel variable is unset, the second input would not only be hidden, but not rendered at all, thus the form will pass validation and the button will become enabled, and you'll get what you need.
 
 ================================
+
+JavaScript equivalent to printf/string.format
+
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}
+
+Usage:
+"{0} is dead, but {1} is alive! {0} {2}".format("ASP", "ASP.NET")
+
+outputs
+
+ASP is dead, but ASP.NET is alive! ASP {2}
+
+If you prefer not to modify String's prototype:
+
+if (!String.format) {
+  String.format = function(format) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return format.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}
+Gives you the much more familiar:
+
+String.format('{0} is dead, but {1} is alive! {0} {2}', 'ASP', 'ASP.NET');
+
+with the same result:
+
+ASP is dead, but ASP.NET is alive! ASP {2}
+
+If you have multiple strings appended to each other (with the +-operator),
+be sure to put the complete String in parentheses: ("asd {0}"+"fas {1}").format("first", "second"); Otherwise,
+the function will only be applied to the last string that was appended.

@@ -32,28 +32,94 @@
             })
     }
 
-    MainController.$inject = ['$scope', '$rootScope', '$resource', 'APIHelper', 'BaseServiceModel', 'SERVER_LINKS']
+    MainController.$inject = [
+        '$scope', '$rootScope', '$resource',
+        'APIHelper', 'BaseModelService', 'FriendModelService'];
 
-    function MainController($scope, $rootScope, $resource, APIHelper, BaseServiceModel, SERVER_LINKS) {
+    function MainController($scope, $rootScope, $resource, APIHelper, BaseModelService, FriendModelService) {
 
         // Links
-        $scope.links = SERVER_LINKS;
+        //$scope.links = SERVER_LINKS;
 
         // get referrer
-        var matchPattern = /^http[s]*:\/\/[\w\d\.:]+[\/#]*\/(test)[\/]*/i;
+        var matchPattern = /^http[s]*:\/\/[\w\d\.:]+[\/#]*$/i;
 
         var currentLocation = document.location.toLocaleString();
-        var testMatch = matchPattern.test(currentLocation);
+        var routeMatch = matchPattern.test(currentLocation);
 
-        var param = {"username": "pimisi"}
+        if (routeMatch) {
+            var param = {"username": "pimisi"}
 
-        var friendList = new BaseServiceModel("friends.list", param);
+            var friendList = new FriendModelService();
 
-        console.log(friendList);
+            console.log(friendList);
 
-        friendList.fetchJSONObject().then(function() {
-            console.log(friendList.responsePayload);
-        });
+            friendList.getFriendsList(param).then(function () {
+                console.log(friendList.responsePayload);
+            });
+        }
+
+        // Form processing and POST requests
+
+        $scope.master = {}
+
+        $scope.testForm = {
+            "isProcessing": false,
+            "completed": false
+        };
+
+        $scope.reset = function (form) {
+            if (form) {
+                form.$setPristine();
+                form.$setUntouched();
+                $scope.testForm = form;
+                $scope.testForm.isProcessing = false;
+                $scope.testForm.completed = false;
+            }
+
+            $scope.testModels = angular.copy($scope.master);
+        }
+
+        $scope.processForm = function (form) {
+            if (form.$valid) {
+                $scope.testForm = form;
+                $scope.testForm.isProcessing = true;
+                $scope.alert = {
+                    type: 'info',
+                    msg: "Hi " + $scope.testModels.firstname + ", your form is being processed. Please wait..."
+                }
+
+
+                var sendPost = $resource('/api/general/post-data', {},
+                    {
+                        postData: {
+                            method: 'POST'
+                        }
+                    });
+                sendPost.postData($scope.testModels)
+                    .$promise
+                    .then(function (response) {
+
+                        $scope.alert = {
+                            type: 'success',
+                            msg: "Your data has been processed " + $scope.testModels.firstname
+                        }
+
+                        console.log("Form has been processed. Response payload is:");
+                        console.log(response);
+                    }, function (response) {
+                        console.log("Something happened...");
+                        console.log(response);
+                    })
+                    .catch(function (response) {
+                        console.log("caught an exception...");
+                        console.log(response);
+                    });
+            }
+        }
+
+        $scope.reset();
+
 
         /* if (testMatch) {
          handleContactUsRoute();
@@ -68,8 +134,6 @@
          }
          });
          } */
-
-
 
 
     }

@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^login$', 'django.contrib.auth.views.login'),
-    # url(r'api/', include('apps.api.urls', namespace='api')),
+    url(r'api/', include('apps.api.urls', namespace='api')),
     # url(r'^$', include('apps.responsive_web.urls', namespace='web')),
     url(r'^$', views.HomePageView.as_view(), name='home'),
     url(r'^admin/', include(admin.site.urls)),

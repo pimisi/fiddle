@@ -9,10 +9,6 @@
 
     function APIHelper($resource, $http) {
 
-        //var apiEndpoints = null;
-        //var primaryAPISource = '';
-        //var fallbackAPISource = '';
-
         var serviceSourceObject = {};
         var target = {environment: '', fallback: ''};
 

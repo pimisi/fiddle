@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'rest_framework',
     # 'debug_toolbar',
     'apps.playground',
+    'apps.api',
 )
 
 MIDDLEWARE_CLASSES = (

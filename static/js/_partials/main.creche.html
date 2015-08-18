@@ -1,1 +1,96 @@
-<h1>Creche Page</h1>
+<div class="col-lg-6 col-md-6 col-sm-7 testModels-us-form-box">
+    <form novalidate class="form-horizontal" name="testForm">
+        <fieldset>
+            <div ng-if="testForm.isProcessing || testForm.completed"
+                 ng-class="{'completed-alert': testForm.completed}">
+                <alert type="{$ alert.type $}">{$ alert.msg $}</alert>
+            </div>
+            <!-- Form Name -->
+            <legend>Creche Page</legend>
+
+            <div ng-show="!testForm.completed">
+                <!-- Text input-->
+                <div class="form-group testModels-name">
+                    <div class="col-md-12">
+                        <input ng-disabled="testForm.isProcessing"
+                               ng-model="testModels.firstname" id="txtFirstname" name="txtFirstname" type="text"
+                               placeholder="Firstname - Required"
+                               class="form-control input-md" required="true">
+
+                        <div class="input-error"
+                             ng-show="testForm.$submitted
+                                     || (testForm.txtFirstname.$touched && testForm.txtFirstname.$invalid)">
+                            <div ng-show="testForm.txtFirstname.$error.required">
+                                Please tell us your Firstname name.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group testModels-name">
+                    <div class="col-md-12">
+                        <input ng-disabled="testForm.isProcessing"
+                               ng-model="testModels.lastname" id="txtLastname" name="txtLastname" type="text"
+                               placeholder="Lastname"
+                               class="form-control input-md">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input ng-disabled="testForm.isProcessing"
+                               ng-model="testModels.email" name="txtEmail" type="email"
+                               placeholder="Email Address - Required"
+                               class="form-control input-md" required="true">
+
+                        <div class="input-error"
+                             ng-show="testForm.$submitted
+                                     || (testForm.txtEmail.$touched && testForm.txtEmail.$invalid)">
+                            <div ng-show="testForm.txtEmail.$error.required">
+                                Please include your email address
+                            </div>
+                            <div ng-show="testForm.txtEmail.$error.email">
+                                The email address you've entered is not valid
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Textarea -->
+                <div class="form-group">
+                    <div class="col-md-12">
+                                <textarea ng-disabled="testForm.isProcessing" class="form-control"
+                                          ng-model="testModels.message" rows="5"
+                                          placeholder="Type your message here - Required" name="txtAMessage"
+                                          required="true" minlength="10"></textarea>
+
+                        <div class="input-error"
+                             ng-show="testForm.$submitted
+                                     || (testForm.txtAMessage.$touched && testForm.txtAMessage.$invalid)">
+                            <div ng-show="testForm.txtAMessage.$error.required">Please add your message</div>
+                            <div ng-show="testForm.txtAMessage.$error.minlength">The message must be at least 10
+                                characters long
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Button -->
+                <div class="form-group button-row">
+                    <div class="col-md-12">
+                        <input ng-disabled="testForm.isProcessing" type="button" class="btn btn-default"
+                               ng-click="reset()" value="Reset"/>
+                        <input ng-disabled="testForm.isProcessing" type="submit" name="btnSend"
+                               class="btn btn-primary" ng-click="processForm(testForm)">
+                        </input>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>
