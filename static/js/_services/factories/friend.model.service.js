@@ -13,12 +13,12 @@
 
         // Create the new custom object that reuses the original
         // object constructor
-        var FriendServiceModel = function() {
+        var FriendModelService = function() {
             BaseModelService.apply(this, arguments);
         }
 
         // use the original object prototype
-        FriendServiceModel.prototype = new BaseModelService();
+        FriendModelService.prototype = new BaseModelService();
 
         // Define new private method
         //function getFriendsList() {
@@ -27,34 +27,58 @@
         //
         //}
 
+        function extractArguments(_arguments, _requestedService) {
+            var args = [];
+            var totalArguments = _arguments.length;
+
+            if (totalArguments < 2) {
+                args.push(_requestedService);
+
+                for (var i = 0; i < totalArguments; i++) {
+                    args.push(_arguments[i]);
+                }
+
+                if (args.length < 2) {
+                    args.push({});
+                }
+            } else if (totalArguments > 2) {
+                console.error("Maximum of 2 arguments expected, " + totalArguments + " given");
+                return null;
+            } else {
+                for (var i = 0; i < totalArguments; i++) {
+                    args.push(_arguments[i]);
+                }
+                // args = _arguments;
+            }
+            return args;
+        }
+
         /**
          * Get a list of friends for the user supplied in the argument param object
          * The function takes a maximum of 2 arguments.
          * @returns {*}
          */
-        FriendServiceModel.prototype.getFriendsList = function() {
+        FriendModelService.prototype.getFriendsList = function() {
 
-            var args = [];
-            var totalArguments = arguments.length;
-
-            if (totalArguments < 2) {
-                args.push(requestedService + ".list");
-
-                for (var i = 0; i < totalArguments; i++) {
-                    args.push(arguments[i]);
-                }
-            } else if (totalArguments > 2) {
-                console.log("Maximum of 2 arguments expected, " + totalArguments + " given");
-                return null;
-            } else {
-                args = arguments;
-            }
-
-            //var fetchJSONData = BaseModelService.prototype.fetchJSONObject.apply(this, args);
+            var args = extractArguments(arguments, requestedService + ".list");
 
             return BaseModelService.prototype.fetchJSONObject.apply(this, args);;
         }
 
-        return FriendServiceModel;
+        FriendModelService.prototype.sendMessage = function(payload) {
+            if (typeof(payload) != 'object') {
+                console.error("The requestPayload must be an object");
+                return null;
+            }
+
+            var args = extractArguments(arguments, requestedService + ".list");
+
+            // add the payload to the arguments list
+            args.push(payload);
+
+            return BaseModelService.prototype.postJSONObject.apply(this, args);
+        }
+
+        return FriendModelService;
     }
 })();

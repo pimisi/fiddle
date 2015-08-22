@@ -41,7 +41,7 @@
         // Links
         //$scope.links = SERVER_LINKS;
 
-        // get referrer
+        // Match the home route
         var matchPattern = /^http[s]*:\/\/[\w\d\.:]+[\/#]*$/i;
 
         var currentLocation = document.location.toLocaleString();
@@ -89,7 +89,24 @@
                     msg: "Hi " + $scope.testModels.firstname + ", your form is being processed. Please wait..."
                 }
 
+                var friendList = new FriendModelService();
+                console.log(friendList);
 
+                friendList.queryDirect = true;
+
+                friendList.sendMessage($scope.testModels, '/api/general/post-data').then(function () {
+
+                    $scope.alert = {
+                            type: 'success',
+                            msg: "Your data has been processed " + $scope.testModels.firstname
+                        }
+
+                    console.log("Form has been processed. Response payload is:");
+                    console.log(friendList.responsePayload);
+                });
+
+
+                /*
                 var sendPost = $resource('/api/general/post-data', {},
                     {
                         postData: {
@@ -115,6 +132,7 @@
                         console.log("caught an exception...");
                         console.log(response);
                     });
+                    */
             }
         }
 

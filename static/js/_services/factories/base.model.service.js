@@ -27,10 +27,12 @@
             }
         }
 
-        var BaseServiceModel = function (requestedService, param) {
+        var BaseModelService = function (requestedService, param) {
 
             this.responsePayload = null;
             this.responseError = null;
+            /** This property is used to determine if to use the service switcher logic or not **/
+            this.queryDirect = false;
 
             getApiUriObject.call(this, requestedService, param);
 
@@ -53,7 +55,7 @@
          * This method uses a fallback logic so that if the primary source of the call fails
          * it would make a secondary call to retrieve mock data of the exact same payload structure
          */
-        BaseServiceModel.prototype.JSONRequest = function (sourceURI) {
+        BaseModelService.prototype.JSONRequest = function (sourceURI) {
 
             console.log(sourceURI);
 
@@ -80,7 +82,47 @@
 
         }
 
-        BaseServiceModel.prototype.fetchJSONObject = function (requestedService, param) {
+        BaseModelService.prototype.postJSONObject = function(requestedService, param, requestPayload) {
+            var self = this;
+            self.responsePayload = null;
+
+            getApiUriObject.call(this, requestedService, param);
+
+            var mainUri = self.apiUriObject["main"];
+
+            if (self.queryDirect) { mainUri = requestedService; }
+
+            return self.JSONRequest(mainUri).postJSONObject(requestPayload).$promise.then(function(data) {
+                self.responsePayload = data;
+            }, function(response) {
+                var __response = getResponseError.call(self, response);
+
+                // Only run this on selected environments and if not a direct query (self.queryDirect == false)
+                if ((__response.responseData == null || __response.status == 404) && !self.queryDirect) {
+                    return self.JSONRequest(self.apiUriObject["fallback"]).postJSONObject()
+                        .$promise.then(function(data) {
+                            self.responsePayload = data;
+                        }, function(response) {
+                            console.log("Fallback failed");
+                            self.responseError = getResponseError.call(self, response);
+                        }).catch(function(response) {
+                            console.log("Fallback exception");
+                            self.responseError = getResponseError(response);
+                        });
+                } else {
+                    self.responseError = __response;
+                }
+
+                console.log("Main call failed");
+            }).catch(function(response) {
+                console.log("Main call exception");
+
+                self.responseError = getResponseError(self, response);
+            });
+
+        }
+
+        BaseModelService.prototype.fetchJSONObject = function (requestedService, param) {
             var self = this;
             self.responsePayload = null;
 
@@ -101,16 +143,16 @@
                             self.responsePayload = data;
 
                         }, function (response) {
-                            console.log("Fallback Other Method");
+                            console.log("Fallback failed");
                             self.responseError = getResponseError.call(self, response);
 
                         }).catch(function (response) {
-                            console.log("Fallback Failed");
+                            console.log("Fallback exception");
                             self.responseError = getResponseError.call(self, response);
 
                         });
                 } else {
-                    this.responseError = __response;
+                    self.responseError = __response;
                 }
                 console.log("Other Method");
 
@@ -135,7 +177,7 @@
             return {responseData: responseData, status: status, statusText: statusText};
         }
 
-        return BaseServiceModel;
+        return BaseModelService;
 
     }
 
