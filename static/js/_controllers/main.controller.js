@@ -38,8 +38,7 @@
 
     function MainController($scope, $rootScope, $resource, APIHelper, BaseModelService, FriendModelService) {
 
-        // Links
-        //$scope.links = SERVER_LINKS;
+        $scope.friendsList = $scope.hasOwnProperty('friendsList') ? $scope.friendsList : {};
 
         // Match the home route
         var matchPattern = /^http[s]*:\/\/[\w\d\.:]+[\/#]*$/i;
@@ -56,6 +55,7 @@
 
             friendList.getFriendsList(param).then(function () {
                 console.log(friendList.responsePayload);
+                $scope.friendsList = friendList.responsePayload;
             });
         }
 
@@ -94,7 +94,11 @@
 
                 friendList.queryDirect = true;
 
-                friendList.sendMessage($scope.testModels, '/api/general/post-data').then(function () {
+                var options = {
+                    requestedService: '/api/general/post-data',
+                    payload: $scope.testModels
+                }
+                friendList.sendMessage(options).then(function () {
 
                     $scope.alert = {
                             type: 'success',
@@ -105,54 +109,10 @@
                     console.log(friendList.responsePayload);
                 });
 
-
-                /*
-                var sendPost = $resource('/api/general/post-data', {},
-                    {
-                        postData: {
-                            method: 'POST'
-                        }
-                    });
-                sendPost.postData($scope.testModels)
-                    .$promise
-                    .then(function (response) {
-
-                        $scope.alert = {
-                            type: 'success',
-                            msg: "Your data has been processed " + $scope.testModels.firstname
-                        }
-
-                        console.log("Form has been processed. Response payload is:");
-                        console.log(response);
-                    }, function (response) {
-                        console.log("Something happened...");
-                        console.log(response);
-                    })
-                    .catch(function (response) {
-                        console.log("caught an exception...");
-                        console.log(response);
-                    });
-                    */
             }
         }
 
         $scope.reset();
-
-
-        /* if (testMatch) {
-         handleContactUsRoute();
-         } else {
-         // Do these only for the contact us route
-         $rootScope.$on('$locationChangeStart', function (event, next, current) {
-
-         var contactUsMatch = matchPattern.test(next);
-
-         if (contactUsMatch) {
-         handleContactUsRoute();
-         }
-         });
-         } */
-
 
     }
 

@@ -65,16 +65,30 @@
             return BaseModelService.prototype.fetchJSONObject.apply(this, args);;
         }
 
-        FriendModelService.prototype.sendMessage = function(payload) {
-            if (typeof(payload) != 'object') {
-                console.error("The requestPayload must be an object");
-                return null;
+        FriendModelService.prototype.sendMessage = function(options) {
+            var args = [];
+
+            if (typeof(options) != 'object') {
+                console.error("FriendModelService.sendMessage: " +
+                    "This method accepts only one argument and it must be an object");
+                options = {};
+            } else {
+                // Get arguments from options
+                if (options.hasOwnProperty('requestedService')) {
+                    args.push(options['requestedService']);
+                } else {
+                    args.push(requestedService + ".list");
+                }
+                if (options.hasOwnProperty('params')) {
+                    args.push(options['params']);
+                } else {
+                    args.push({});
+                }
             }
 
-            var args = extractArguments(arguments, requestedService + ".list");
-
-            // add the payload to the arguments list
-            args.push(payload);
+            if (options.hasOwnProperty('payload')) {
+                args.push(options['payload']);
+            }
 
             return BaseModelService.prototype.postJSONObject.apply(this, args);
         }

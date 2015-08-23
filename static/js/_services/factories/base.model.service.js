@@ -85,14 +85,18 @@
         BaseModelService.prototype.postJSONObject = function(requestedService, param, requestPayload) {
             var self = this;
             self.responsePayload = null;
+            var mainUri = '';
 
-            getApiUriObject.call(this, requestedService, param);
+            if (self.queryDirect) {
+                mainUri = requestedService;
+            } else {
+                getApiUriObject.call(this, requestedService, param);
+                mainUri = self.apiUriObject["main"];
+            }
 
-            var mainUri = self.apiUriObject["main"];
+            var requestObject = self.JSONRequest(mainUri);
 
-            if (self.queryDirect) { mainUri = requestedService; }
-
-            return self.JSONRequest(mainUri).postJSONObject(requestPayload).$promise.then(function(data) {
+            return requestObject.postJSONObject(requestPayload).$promise.then(function(data) {
                 self.responsePayload = data;
             }, function(response) {
                 var __response = getResponseError.call(self, response);
@@ -168,6 +172,8 @@
             // encoded in base64.
             var headers = headersGetter();
             //headers['Authorization'] = ('Basic ' + Base64.encode(data.username + ':' + data.password))
+            //return $.param(data);
+            return angular.toJson(data);
         }
 
         function getResponseError(response) {
