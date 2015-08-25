@@ -1,6 +1,7 @@
 (function () {
     'use strict'
 
+    angular.module("ui.yookore", ["ui.yookore.templates"]);
     angular.module("ui.yookore.templates", ["template/components/forms/country-select.html"]);
     angular.module("template/components/forms/country-select.html", [])
         .run(["$templateCache", function ($templateCache) {

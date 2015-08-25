@@ -18,7 +18,9 @@
             'ui.router',
             'ui.bootstrap',
             'angular-storage',
-            'angular-jwt']
+            'angular-jwt',
+            'ui.yookore'
+        ]
     )
         .constant('AUTH_EVENTS', {
             loginSuccess: 'auth-login-success',
