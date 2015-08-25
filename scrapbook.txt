@@ -80,3 +80,36 @@ ASP is dead, but ASP.NET is alive! ASP {2}
 If you have multiple strings appended to each other (with the +-operator),
 be sure to put the complete String in parentheses: ("asd {0}"+"fas {1}").format("first", "second"); Otherwise,
 the function will only be applied to the last string that was appended.
+
+
+            /* return self.JSONRequest(mainUri).fetchJSONObject().$promise.then(function (data) {
+             self.responsePayload = data;
+             }, function (response) {
+             var __response = getResponseError.call(self, response);
+
+             // Check the error return from the server
+             if (__response.responseData == null || __response.status == 404) {
+             // Make the secondary call
+             return self.JSONRequest(self.apiUriObject["fallback"]).fetchJSONObject()
+             .$promise.then(function (data) {
+             self.responsePayload = data;
+
+             }, function (response) {
+             console.log("Fallback failed");
+             self.responseError = getResponseError.call(self, response);
+
+             }).catch(function (response) {
+             console.log("Fallback exception");
+             self.responseError = getResponseError.call(self, response);
+
+             });
+             } else {
+             self.responseError = __response;
+             }
+             console.log("Other Method");
+
+             }).catch(function (response) {
+             console.log("Failed");
+
+             self.responseError = getResponseError.call(self, response);
+             }); */

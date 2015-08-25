@@ -47,7 +47,7 @@
         var routeMatch = matchPattern.test(currentLocation);
 
         if (routeMatch) {
-            var param = {"username": "pimisi"}
+            /* var param = {"username": "pimisi"}
 
             var friendList = new FriendModelService();
 
@@ -56,7 +56,10 @@
             friendList.getFriendsList(param).then(function () {
                 console.log(friendList.responsePayload);
                 $scope.friendsList = friendList.responsePayload;
-            });
+            });*/
+
+            // Country list
+
         }
 
         // Form processing and POST requests

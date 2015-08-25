@@ -62,7 +62,7 @@
 
             var args = extractArguments(arguments, requestedService + ".list");
 
-            return BaseModelService.prototype.fetchJSONObject.apply(this, args);;
+            return BaseModelService.prototype.fetchJSONObject.apply(this, args);
         }
 
         FriendModelService.prototype.sendMessage = function(options) {
