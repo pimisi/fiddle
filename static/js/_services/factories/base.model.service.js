@@ -39,8 +39,16 @@
 
         }
 
+        /**
+         * This method is used to extract arguments passed in to a function into a new array
+         *
+         * @param _arguments - The arguments of the function
+         * @param _requestedService - The requested service to include in the new arguments array
+         * @returns {*}
+         */
         BaseModelService.prototype.extractArguments = function(_arguments, _requestedService) {
             var args = [];
+
             var totalArguments = _arguments.length;
 
             if (totalArguments < 2) {
@@ -62,6 +70,43 @@
                 }
                 // args = _arguments;
             }
+            return args;
+        }
+
+        /**
+         * This method is used to generate arguments from options passed in to a function
+         *
+         * @param options - The supplied options
+         * @returns {Array} - Aaray of the generated arguments
+         */
+        BaseModelService.prototype.generateArguments = function(options, requestedService) {
+            var args = [];
+
+            if (typeof(options) != 'object' && (options != null && options != undefined)) {
+                console.error("FriendModelService.sendMessage: " +
+                    "This method accepts only one argument and it must be an object");
+                options = {};
+            } else {
+                // Get arguments from options
+                // requestedService must be the first item
+                if (options.hasOwnProperty('requestedService')) {
+                    args.push(options['requestedService']);
+                } else {
+                    requestedService = angular.isString(requestedService) ? requestedService : '';
+
+                    args.push(requestedService); // Use the default requested service
+                }
+                if (options.hasOwnProperty('params')) {
+                    args.push(options['params']);
+                } else {
+                    args.push({});
+                }
+            }
+
+            if (options.hasOwnProperty('payload')) {
+                args.push(options['payload']);
+            }
+
             return args;
         }
 

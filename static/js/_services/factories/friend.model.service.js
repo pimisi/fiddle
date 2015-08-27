@@ -20,13 +20,6 @@
         // use the original object prototype
         FriendModelService.prototype = new BaseModelService();
 
-        // Define new private method
-        //function getFriendsList() {
-        //    var self = this;
-        //    return this.fetchJSONObject();
-        //
-        //}
-
         function extractArguments(_arguments, _requestedService) {
             var args = [];
             var totalArguments = _arguments.length;
@@ -58,37 +51,25 @@
          * The function takes a maximum of 2 arguments.
          * @returns {*}
          */
-        FriendModelService.prototype.getFriendsList = function() {
+        FriendModelService.prototype.getFriendsList = function(options) {
 
-            var args = extractArguments(arguments, requestedService + ".list");
+            /*
+            var args = BaseModelService.prototype.extractArguments.apply(
+                this,
+                arguments,
+                requestedService + ".list"
+            ); */
+
+            var args = BaseModelService.prototype.generateArguments(options);
 
             return BaseModelService.prototype.fetchJSONObject.apply(this, args);
         }
 
+
+
         FriendModelService.prototype.sendMessage = function(options) {
-            var args = [];
 
-            if (typeof(options) != 'object') {
-                console.error("FriendModelService.sendMessage: " +
-                    "This method accepts only one argument and it must be an object");
-                options = {};
-            } else {
-                // Get arguments from options
-                if (options.hasOwnProperty('requestedService')) {
-                    args.push(options['requestedService']);
-                } else {
-                    args.push(requestedService + ".list");
-                }
-                if (options.hasOwnProperty('params')) {
-                    args.push(options['params']);
-                } else {
-                    args.push({});
-                }
-            }
-
-            if (options.hasOwnProperty('payload')) {
-                args.push(options['payload']);
-            }
+            var args = BaseModelService.prototype.generateArguments(options);
 
             return BaseModelService.prototype.postJSONObject.apply(this, args);
         }

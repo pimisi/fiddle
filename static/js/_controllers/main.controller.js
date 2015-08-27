@@ -64,6 +64,8 @@
 
         // Form processing and POST requests
 
+        $scope.country = 0;
+
         $scope.master = {}
 
         $scope.testForm = {

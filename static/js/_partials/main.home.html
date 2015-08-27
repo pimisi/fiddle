@@ -1,6 +1,12 @@
 <h1>Home Page</h1>
 <h2>Directives Component</h2>
-<country-select>Country Select</country-select>
+<h3>As and Element</h3>
+<country-select name="selCountry" id="txtCountry">
+    Country Select
+</country-select>
+
+<!-- <h3>As an Attribute</h3>
+<div country-select class="test-class">Country Select</div> -->
 
 <div ng-repeat="friend in friendsList.list">
     {$ friend $}
