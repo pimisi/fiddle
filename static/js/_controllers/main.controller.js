@@ -38,6 +38,7 @@
 
     function MainController($scope, $rootScope, $resource, APIHelper, BaseModelService, FriendModelService) {
 
+
         $scope.friendsList = $scope.hasOwnProperty('friendsList') ? $scope.friendsList : {};
 
         // Match the home route
