@@ -38,6 +38,7 @@
 
     function MainController($scope, $rootScope, $resource, APIHelper, BaseModelService, FriendModelService) {
 
+        console.log($scope.formData);
 
         $scope.friendsList = $scope.hasOwnProperty('friendsList') ? $scope.friendsList : {};
 
@@ -104,7 +105,7 @@
                     requestedService: '/api/general/post-data',
                     payload: $scope.testModels
                 }
-                friendList.sendMessage(options).then(function () {
+                friendList.sendFriendRequest(options).then(function () {
 
                     $scope.alert = {
                             type: 'success',

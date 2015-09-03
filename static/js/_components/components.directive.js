@@ -1,6 +1,9 @@
 /**
  components.directives.js
 
+ For best practices as stated in the AngulaJS Documentation for directives
+ We would prefix our directives with py which stands for Project Yookore
+
  @author Paul Imisi
  @data 24/08/2015
  */
@@ -9,10 +12,111 @@
 
     angular
         .module('playgroundApp')
-        .directive("dateSelect", DateSelect)
-        .directive("countrySelect", CountrySelect);
+        .controller("InputComponentController", ['$scope', '$attrs', InputComponentController])
+        .directive("pyDateInput", ['$compile', DateInput])
+        .directive("pyDaySelect", ['$compile', DaySelect])
+        .directive("pyMonthSelect", ['$compile', MonthSelect])
+        .directive("pyYearSelect", ['$compile', YearSelect])
+        .directive("pyCountrySelect", ['BaseModelService', '$compile', CountrySelect]);
 
-    DateSelect.$inject = ['$compile'];
+    function InputComponentController($scope, $attrs) {
+        var directiveScope = $scope; // $scope.$parent;
+        this.options = directiveScope.$eval($attrs.field);
+    }
+
+    function DaySelect($compile) {
+        return {
+            replace: true,
+            scope: {
+                modelObject: "@?",
+                model: '=?'
+            },
+            controller: 'InputComponentController',
+            controllerAs: 'componentController',
+            templateUrl: "template/components/forms/day-select.html",
+            link: function(scope, element, attrs) {
+
+                // Det the default modelObject
+                //scope.modelObject = scope.modelObject == undefined ? "formData" : scope.modelObject;
+                //scope.model = scope.$eval(scope.modelObject + ".days");
+                //$scope.$parent
+
+                scope.selectClass = "field33-left";
+
+
+            }
+        }
+    }
+
+    function MonthSelect($compile) {
+        return {
+
+        }
+    }
+
+    function YearSelect($compile) {
+        return {
+
+        }
+    }
+
+    function DateInput($compile) {
+        return {
+            restrict: 'EA',                                  // Restrict to just an element
+            /* scope: {                                        // Our isolated scope
+                ngModel: '=',                               // Using the shorthand syntax. Same as ndModel:'=ngModel'
+                dateOptions: '=?',                          // ? denotes this scope model is 'optional'
+                minDate: '=?',
+                maxDate: '=?'
+            }, */
+            scope: {
+                modelObject: "@?",
+                layoutFormat: "@?"
+            },
+            /*controller: function($scope) {                  // Use when there is a need to expose an API
+                                                            // To other directives
+                //$scope.title = title;
+            },*/
+            transclude: true,
+            replace: true,
+            templateUrl: function(element, attributes) {
+                // If type is not specified default to select
+                var defaultType = "select";
+                var type = (!attributes.hasOwnProperty('type')) ? defaultType : (attributes.type).toLowerCase();
+
+                // Type must be either select or picker
+                if (['select', 'picker'].indexOf(type) == -1) {
+                    console.warn(type + ' is not a valid pyDateInput type');
+                    type = defaultType;
+                }
+
+                return 'template/components/forms/date-' + type + '.html'
+            },
+            link: function(scope, element, attrs) {         // Because we need to modify the DOM
+                console.log(scope.modelObject);
+                console.log(scope.layoutFormat);
+            }
+        }
+    }
+
+    function CountrySelect(BaseModelService, $compile) {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*DateSelect.$inject = ['$compile'];
 
     function DateSelect($compile) {
         return {
@@ -20,7 +124,7 @@
             scope: {
                 ngModel: "=",
                 dateOptions: "=",
-                opened: "="
+                required: "="
             },
             require: 'dateSelect',
             controller: function ($scope) {
@@ -34,24 +138,12 @@
                     'show-weeks' : false
                 };
 
-
-                /*$scope.formats = ['d-MM-yyyy', 'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-                $scope.format = $scope.formats[0];
-                $scope.maxDate = '2020-06-22';
-                $scope.status = {opened: false};
-                $scope.minDate = $scope.minDate ? null : new Date();
-                $scope.dateOptions = {
-                    formatYear: 'yy',
-                    startingDay: 1
-                };
-                $scope.open = function ($event) {
-                    $scope.status.opened = true;
-                };
-
-                $scope.today = function () {
-                    $scope.dt = new Date();
-                };
-                $scope.today(); */
+                var defaultAttributes = {
+                    name: "pickerDate",
+                    id: "pickerDate",
+                    "ng-model": "formData.date",
+                    //"ng-init": "country='0'"
+                }
 
             },
             templateUrl: 'template/components/forms/date-select.html',
@@ -81,6 +173,9 @@
             require: "countrySelect",
             priority: 1001,     // We want this directive to compile first
             terminal: true,     // We don't want any other processing after it
+            scope : {
+                ngModel: "="
+            },
             controller: function ($scope, $attrs) {
                 this.fetchCountries = function () {
                     var ServiceCall = new BaseModelService("countries.list");   // Create an instance of the Model
@@ -107,7 +202,7 @@
                 var defaultAttributes = {
                     name: "selCountry",
                     id: "selCountry",
-                    "ng-model": "country",
+                    "ng-model": "formDate.country",
                     //"ng-init": "country='0'"
                 }
 
@@ -117,8 +212,11 @@
                         console.log(key + ":" + value);
                         // Remove any key-value pair from the default object if found to have been passed
                         // in to the element attributes during use
-                        if (defaultAttributes[key] != undefined) {
-                            delete defaultAttributes[key];
+
+                        var currentAttribute = key == "ngModel" ? "ng-model" : key;
+
+                        if (defaultAttributes[currentAttribute] != undefined) {
+                            delete defaultAttributes[currentAttribute];
                         }
 
                     }
@@ -144,5 +242,6 @@
             }
         }
     }
+    */
 
 })();

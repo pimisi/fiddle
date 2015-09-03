@@ -7,21 +7,6 @@
 (function($) {
     "use strict"; // Start of use strict
 
-    // jQuery for page scrolling feature - requires jQuery Easing plugin
-    /*$('a.page-scroll').bind('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: ($($anchor.attr('href')).offset().top - 50)
-        }, 1250, 'easeInOutExpo');
-        event.preventDefault();
-    });*/
-
-    // Highlight the top nav as scrolling occurs
-    //$('body').scrollspy({
-    //    target: '.navbar-fixed-top',
-    //    offset: 51
-    //})
-
     // Closes the Responsive Menu on Menu Item Click
     $('.navbar-collapse ul li a').click(function() {
         $('.navbar-toggle:visible').click();
@@ -45,10 +30,6 @@
     // Initialize WOW.js Scrolling Animations
     new WOW().init();
 
-    //$('.carousel').carousel({
-    //    interval: false
-    //});
-
     // Prevent the carousel from cycling
     $('.carousel').each(function(){
         $(this).carousel({
@@ -57,62 +38,70 @@
         });
     });
 
-    // Contact Us
-    /* $('#contactUsForm').formValidation({
-        framework: 'bootstrap',
-        err: {
-            container: function ($field, validator) {
-                // Look at the markup
-                //  <div class="col-xs-4">
-                //      <field>
-                //  </div>
-                //  <div class="col-xs-5 messageContainer"></div>
-                return $field.parent().next('.messageContainer');
-            }
-        },
-        icon: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            txtFirstname: {
-                validators: {
-                    notEmpty: {
-                        message: 'Your Firstname is required and cannot be empty'
-                    }
-                }
-            },
-            txtEmail: {
-                validators: {
-                    notEmpty: {
-                        message: 'The email address is required and cannot be empty'
-                    },
-                    emailAddress: {
-                        message: 'The email address is not valid'
-                    }
-                }
-            },
-            selSubject: {
-                validators: {
-                    notEmpty: {
-                        message: 'A Subject must be selected'
-                    }
-                }
-            },
-            txtAMessage: {
-                validators: {
-                    notEmpty: {
-                        message: 'The message is required and cannot be empty'
-                    },
-                    stringLength: {
-                        min: 50,
-                        max: 500,
-                        message: 'The message must be more than 50 and less than 500 characters long'
-                    }
-                }
-            }
-        }
-    });*/
+    // Production steps of ECMA-262, Edition 5, 15.4.4.14
+// Reference: http://es5.github.io/#x15.4.4.14
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(searchElement, fromIndex) {
+
+    var k;
+
+    // 1. Let O be the result of calling ToObject passing
+    //    the this value as the argument.
+    if (this == null) {
+      throw new TypeError('"this" is null or not defined');
+    }
+
+    var O = Object(this);
+
+    // 2. Let lenValue be the result of calling the Get
+    //    internal method of O with the argument "length".
+    // 3. Let len be ToUint32(lenValue).
+    var len = O.length >>> 0;
+
+    // 4. If len is 0, return -1.
+    if (len === 0) {
+      return -1;
+    }
+
+    // 5. If argument fromIndex was passed let n be
+    //    ToInteger(fromIndex); else let n be 0.
+    var n = +fromIndex || 0;
+
+    if (Math.abs(n) === Infinity) {
+      n = 0;
+    }
+
+    // 6. If n >= len, return -1.
+    if (n >= len) {
+      return -1;
+    }
+
+    // 7. If n >= 0, then Let k be n.
+    // 8. Else, n<0, Let k be len - abs(n).
+    //    If k is less than 0, then let k be 0.
+    k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+    // 9. Repeat, while k < len
+    while (k < len) {
+      // a. Let Pk be ToString(k).
+      //   This is implicit for LHS operands of the in operator
+      // b. Let kPresent be the result of calling the
+      //    HasProperty internal method of O with argument Pk.
+      //   This step can be combined with c
+      // c. If kPresent is true, then
+      //    i.  Let elementK be the result of calling the Get
+      //        internal method of O with the argument ToString(k).
+      //   ii.  Let same be the result of applying the
+      //        Strict Equality Comparison Algorithm to
+      //        searchElement and elementK.
+      //  iii.  If same is true, return k.
+      if (k in O && O[k] === searchElement) {
+        return k;
+      }
+      k++;
+    }
+    return -1;
+  };
+}
 
 })(jQuery); // End of use strict

@@ -20,32 +20,6 @@
         // use the original object prototype
         FriendModelService.prototype = new BaseModelService();
 
-        function extractArguments(_arguments, _requestedService) {
-            var args = [];
-            var totalArguments = _arguments.length;
-
-            if (totalArguments < 2) {
-                args.push(_requestedService);
-
-                for (var i = 0; i < totalArguments; i++) {
-                    args.push(_arguments[i]);
-                }
-
-                if (args.length < 2) {
-                    args.push({});
-                }
-            } else if (totalArguments > 2) {
-                console.error("Maximum of 2 arguments expected, " + totalArguments + " given");
-                return null;
-            } else {
-                for (var i = 0; i < totalArguments; i++) {
-                    args.push(_arguments[i]);
-                }
-                // args = _arguments;
-            }
-            return args;
-        }
-
         /**
          * Get a list of friends for the user supplied in the argument param object
          * The function takes a maximum of 2 arguments.
@@ -60,16 +34,16 @@
                 requestedService + ".list"
             ); */
 
-            var args = BaseModelService.prototype.generateArguments(options);
+            var args = BaseModelService.prototype.generateArguments.apply(this, options, requestedService + ".list");
 
             return BaseModelService.prototype.fetchJSONObject.apply(this, args);
         }
 
 
 
-        FriendModelService.prototype.sendMessage = function(options) {
+        FriendModelService.prototype.sendFriendRequest = function(options) {
 
-            var args = BaseModelService.prototype.generateArguments(options);
+            var args = BaseModelService.prototype.generateArguments.apply(this, options, requestedService + ".requests.send");
 
             return BaseModelService.prototype.postJSONObject.apply(this, args);
         }

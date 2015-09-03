@@ -4,7 +4,8 @@
     angular.module("ui.yookore", ["ui.yookore.templates"]);
     angular.module("ui.yookore.templates", [
         "template/components/forms/country-select.html",
-        "template/components/forms/date-select.html"
+        "template/components/forms/date-select.html",
+        "template/components/forms/day-select.html"
     ]);
 
     angular.module("template/components/forms/country-select.html", [])
@@ -19,20 +20,53 @@
             );
         }]);
 
+
+    angular.module("template/components/forms/day-select.html", [])
+        .run(["$templateCache", function($templateCache) {
+            $templateCache.put(
+                "template/components/forms/day-select.html",
+                '   <div class="{$ selectClass $}">{$ componentController.model $}' +
+                '       <select name="selDay" class="form-control" ' +
+                '           ng-model="componentController.model">' +
+                '           <option value="" disabled>Day</option>' +
+                '           <option value="1">1</option>' +
+                '       </select>' +
+                '   </div>'
+            );
+        }]);
+
+
     angular.module("template/components/forms/date-select.html", [])
         .run(["$templateCache", function($templateCache) {
             $templateCache.put(
                 "template/components/forms/date-select.html",
-                '<p class="input-group">\n' +
-                '   <input type="text" class="form-control" datepicker-popup="" ' +
-                'ng-model="dt" is-open="opened" min="minDate" max="\'2015-06-22\'" ' +
-                'datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ' +
-                'ng-required="true" close-text="Close" />\n' +
-                '   <span class="input-group-btn">\n' +
-                '       <button class="btn btn-default" ng-click="open($event)">' +
-                '           <i class="glyphicon glyphicon-calendar"></i>' +
-                '       </button></span>' +
-                '</p>'
+                '<div class="field-row">{$ modelObject $}' +
+                '<div ng-if="ngTransclude" ng-transclude></div>' +
+                '   <div class="field33-left">' +
+                '       <select name="selMonth" class="form-control" ng-model="formData.month">' +
+                '           <option value="" disabled>Month</option>' +
+                '           <option value="1">January</option>' +
+                '       </select>' +
+                '   </div>' +
+                '   <div class="field33-mid">' +
+                '       <select name="selDay" class="form-control" ng-model="formData.day">' +
+                '           <option value="" disabled>Day</option>' +
+                '       </select>' +
+                '   </div>' +
+                '   <div class="field33-right">' +
+                '       <select name="selYear" class="form-control" ng-model="formData.year">' +
+                '           <option value="" disabled>Year</option>' +
+                '       </select>' +
+                '   </div>' +
+                '</div>'
+            )
+        }]);
+
+    angular.module("template/components/forms/date-picker.html", [])
+        .run(["$templateCache", function($templateCache) {
+            $templateCache.put(
+                "template/components/forms/date-select.html",
+                '<input type="date" placeholder="yyyy-MM-dd" min="minDate" max="maxDate" class="input" />'
             )
         }]);
 })();

@@ -1,12 +1,32 @@
 <h1>Home Page</h1>
 <h2>Directives Component</h2>
 <h3>As and Element</h3>
-<country-select name="selCountry" id="txtCountry">
+<form>
+<country-select ng-model="country">
     Country Select
 </country-select>
 <br />
 <br />
-<date-select ng-model="formData.date" date-options="dateOptions" opened="opened">Date Select</date-select>
+
+    <py-day-select model="::formData.days"></py-day-select>
+   My Form Data:
+    {$ formData $}
+
+    <br />
+    <br />
+
+<!-- Date Input -->
+<!-- <py-date-input layout-format="dmy"></py-date-input> -->
+{$ formData $}
+</form>
+
+
+
+
+
+
+
+<!-- <date-select ng-model="formData.date">Date Select</date-select> -->
 <!-- <mydatepicker ng-model="formData.date" date-options="dateOptions" opened="opened"/> -->
 
 <!-- <h3>As an Attribute</h3>
