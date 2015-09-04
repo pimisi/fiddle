@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3792247793">
+  <component name="DataSourceManagerImpl" format="xml" hash="2676571093">
     <data-source source="LOCAL" name="Django default" uuid="6f2570a7-26fb-45e0-8fb1-ca1d15fcf18a">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite3</jdbc-url>
-      <libraries>
-        <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/xerial-sqlite-license.txt</url>
-        </library>
-        <library>
-          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/sqlite-jdbc-3.7.6.3-20110609.081603-3.jar</url>
-        </library>
-      </libraries>
+      <jdbc-url>jdbc:sqlite:C:\Projects\Django\AngularJS\fiddle\db.sqlite3</jdbc-url>
+      <libraries />
     </data-source>
     <data-source source="LOCAL" name="Django default2" uuid="9f13b435-7c04-413c-b5f1-4889eddabd94">
       <driver-ref>postgresql</driver-ref>

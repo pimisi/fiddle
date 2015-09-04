@@ -2,15 +2,16 @@
 <h2>Directives Component</h2>
 <h3>As and Element</h3>
 <form>
-<country-select ng-model="country">
-    Country Select
-</country-select>
-<br />
-<br />
-
-    <py-day-select model="::formData.days"></py-day-select>
-   My Form Data:
+<py-country-select ng-model="formData.country"></py-country-select>
     {$ formData $}
+<br />
+<br />
+    <py-phone-input form-name="signupform" model="formData.phone"></py-phone-input>
+
+    Phone {$ formData.phone $}
+
+    <py-day-select model="formData.days"></py-day-select>
+   My Form Data: {$ formData $}
 
     <br />
     <br />

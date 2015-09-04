@@ -55,3 +55,15 @@ body {
     width: 34%;
     display: inline-block;
 }
+
+.field30-left {
+    float: left;
+    width: 28%;
+    display: inline-block;
+}
+
+.field70-right {
+    float: right;
+    width: 70%;
+    display: inline-block;
+}

@@ -83,10 +83,8 @@
             restrict: "AE",
             templateUrl:"js/_templates/alerts.html",
             scope:true,
-
             link: function (scope) {
                 scope.currentAlerts = alerting.currentAlerts;
-
             }
 
         }
